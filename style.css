@@ -15,7 +15,7 @@
       -ms-flex-direction: column;
           flex-direction: column;
   padding-bottom: 20px;
-  margin-right: 20px;
+  margin: 50px 50px;
   font-size: 20px;
 }
 
@@ -48,6 +48,8 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .header {
@@ -57,5 +59,12 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+.resultProduct {
+  font-size: 20px;
+  color: #7c2424;
+  border: 1px solid black;
+  margin-top: 50px;
 }
 /*# sourceMappingURL=style.css.map */
