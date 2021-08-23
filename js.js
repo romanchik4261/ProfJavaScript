@@ -1,8 +1,8 @@
 const products = [
-    {id: 1, title: 'Клубничка', price: 2000},
-    {id: 1, title: 'Ягодка', price: 1900},
-    {id: 1, title: 'Малинка', price: 1800},
-    {id: 1, title: 'Черничка', price: 1500},
+    { id: 1, title: 'Клубничка', price: 2000 },
+    { id: 1, title: 'Ягодка', price: 1900 },
+    { id: 1, title: 'Малинка', price: 1800 },
+    { id: 1, title: 'Черничка', price: 1500 },
 ]
 
 // list - это массив
@@ -16,7 +16,9 @@ const renderProduct = (item) =>
         <h3>${item.title}</h3>
         <p>${item.price} руб.</p>
         <button class="buy-btn">Купить</button>
-    </div>`;
+    </div>`; //чтобы добавить картинку для каждого товара, добавить в объект массива products каждому свою картинку. price: 2000, img: путь
+// тогда в верстке запись такая
+// <img class="img" src="${item.img}">
 
 const renderPage = list => {
     const productsList = list.map(item => renderProduct(item));
