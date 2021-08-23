@@ -1,30 +1,47 @@
-const products = [
-    { id: 1, title: 'Клубничка', price: 2000 },
-    { id: 1, title: 'Ягодка', price: 1900 },
-    { id: 1, title: 'Малинка', price: 1800 },
-    { id: 1, title: 'Черничка', price: 1500 },
-]
+class ProductList {
+    constructor(container = '.products') {
+        this.container = container;
+        this.goods = [];
+        this.fetchProducts(); //метод наполняет массив products товарами
+        this.render(); //вывод товаров на страницу 
+    }
 
-// list - это массив
-// Преобразуем один массив в другой массив
-// item - это объекты массива. В каждый объект передается функция renderProduct c двумя параметрами товара и цены.
-// Функция фозвращает верстку для отображения каждого товара
+    fetchProducts() {
+        this.goods = [
+            { id: 1, title: 'Клубничка', price: 2000 },
+            { id: 2, title: 'Ягодка', price: 1900 },
+            { id: 3, title: 'Малинка', price: 1800 },
+            { id: 4, title: 'Черничка', price: 1500 },
+        ]
+    }
 
-const renderProduct = (item) =>
-    `<div class="product-item">
-        <img class="img" src="image/cardProduct.jpg" alt="cardProduct">
-        <h3>${item.title}</h3>
-        <p>${item.price} руб.</p>
+    render() {
+        const block = document.querySelector(this.container);
+        // В block выведутся все товары
+        for (let product of this.goods) {
+            const item = new ProductItem(product);
+            block.insertAdjacentHTML("beforeend", item.render()); //добавляем верстку отдельного товара в block
+        }
+    }
+
+}
+
+class ProductItem { //отдельный товар
+    constructor(product, img = `image/cardProduct.jpg`) {
+        this.title = product.title;
+        this.id = product.id;
+        this.price = product.price;
+        this.img = img;
+    }
+
+    render() {
+        return `<div class="product-item">
+        <img class="img" src="${this.img}">
+        <h3>${this.title}</h3>
+        <p>${this.price} руб.</p>
         <button class="buy-btn">Купить</button>
-    </div>`; //чтобы добавить картинку для каждого товара, добавить в объект массива products каждому свою картинку. price: 2000, img: путь
-// тогда в верстке запись такая
-// <img class="img" src="${item.img}">
+    </div>`
+    }
+}
 
-const renderPage = list => {
-    const productsList = list.map(item => renderProduct(item));
-    // productsList - это массив со всеми товарами
-    document.querySelector('.products').innerHTML = productsList.join('');
-    // добавляем созданный массив
-};
-
-renderPage(products);
+let list = new ProductList();
