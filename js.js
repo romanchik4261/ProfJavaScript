@@ -4,6 +4,8 @@ class ProductList {
         this.goods = [];
         this.fetchProducts(); //метод наполняет массив products товарами
         this.render(); //вывод товаров на страницу 
+        this.priceGoods(); //сумма товаров
+        this.result(); //вывод суммы
     }
 
     fetchProducts() {
@@ -15,13 +17,26 @@ class ProductList {
         ]
     }
 
-    render() {
+    render() { //вывод товаров на страницу 
         const block = document.querySelector(this.container);
         // В block выведутся все товары
         for (let product of this.goods) {
             const item = new ProductItem(product);
             block.insertAdjacentHTML("beforeend", item.render()); //добавляем верстку отдельного товара в block
         }
+        block.insertAdjacentHTML("beforeend", this.result());
+    }
+
+    priceGoods() { //сумма товаров
+        return this.goods.reduce(function (sum, current) {
+            return sum + current.price;
+        }, 0);
+    }
+
+    result() { //вывод суммы
+        return `<div class="resultProduct">
+        <p>В корзине товаров на сумму ${this.priceGoods()} руб.</p>
+        </div>`
     }
 
 }
@@ -34,13 +49,43 @@ class ProductItem { //отдельный товар
         this.img = img;
     }
 
-    render() {
+    render() { // верстка товара
         return `<div class="product-item">
         <img class="img" src="${this.img}">
         <h3>${this.title}</h3>
         <p>${this.price} руб.</p>
         <button class="buy-btn">Купить</button>
     </div>`
+    }
+}
+
+class basket { //корзина товаров
+
+    generate() { //генерация списка товаров корзины
+
+    }
+
+    addGoods() { //добавляем товар в корзину
+
+    }
+
+    delGoods() { //удаление товара из корзины
+
+    }
+
+    clearbasket() { //очищение корзины
+
+    }
+}
+
+class basketGoods { //элемент товара в корзине
+
+    renderGood() { // генерация товара
+
+    }
+
+    amountGoods() { //изменение кол-ва товаров
+
     }
 }
 
