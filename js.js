@@ -32,6 +32,15 @@ class ProductList {
             return sum + current.price;
         }, 0);
     }
+    //тоже самое со стрелочной функцией
+    // return this.goods.reduce((sum, current) =>
+    //     sum + current.price, 0);
+
+    //третий вариант посчитать стоимость, лучше такой вариант
+    // let sum = 0;
+    // for(let product of this.goods) {
+    //     sum += product.price;
+    // }
 
     result() { //вывод суммы
         return `<div class="resultProduct">
@@ -73,6 +82,10 @@ class basket { //корзина товаров
 
     }
 
+    amountGoods() { //изменение кол-ва товаров
+
+    }
+
     clearbasket() { //очищение корзины
 
     }
@@ -80,13 +93,11 @@ class basket { //корзина товаров
 
 class basketGoods { //элемент товара в корзине
 
-    renderGood() { // генерация товара
+    renderGood() { // генерация товара, верстка
 
     }
 
-    amountGoods() { //изменение кол-ва товаров
 
-    }
 }
 
 let list = new ProductList();
