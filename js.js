@@ -116,19 +116,20 @@ class basketGoods { //элемент товара в корзине
 
     renderGood(product) { // генерация товара
         return `<div class="cart-item" data-id="${product.id_product}">
-                <div class="product-bio">
-                <img class="product-bio-img" src="image/cardProduct.jpg" alt="image">
-                <div class="product-desc">
-                <p class="product-title">${product.product_name}</p>
-                <p class="product-quantity">Quantity: ${product.quantity}</p>
-            <p class="product-single-price">$${product.price} each</p>
-            <div class="right-block">
-                <p class="product-price">$${product.quantity * product.price}</p>
-                <button class="del-btn" data-id="${product.id_product}">&times;</button>
-            </div>
-            </div>
-            </div>
-            </div>`
+                    <div class="product-bio">
+                        <img class="product-bio-img" src="image/cardProduct.jpg" alt="image">
+                        <div class="product-desc">
+                            <p class="product-title">${product.product_name}</p>
+                            <p class="product-quantity">Количество: ${product.quantity}</p>
+                            <p class="product-single-price">Стоимость: ${product.price} руб.</p>
+
+                            <div class="right-block">
+                                <p class="product-price">Итого: ${product.quantity * product.price} руб.</p>
+                                <button class="del-btn" data-id="${product.id_product}">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
 
     }
 
