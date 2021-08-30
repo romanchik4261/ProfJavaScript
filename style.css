@@ -67,4 +67,42 @@
   border: 1px solid black;
   margin-top: 50px;
 }
+
+.cart {
+  position: relative;
+}
+
+.cart-block {
+  position: absolute;
+}
+
+.invisible {
+  display: none;
+}
+
+.cart-block {
+  font-size: 15px;
+  background-color: white;
+  width: 300px;
+  border: 1px solid black;
+  padding: 20px 20px;
+}
+
+.product-bio-img {
+  width: 100px;
+}
+
+.cart-item {
+  padding-bottom: 20px;
+}
+
+.right-block {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.del-btn {
+  color: white;
+  background-color: #7c2424;
+}
 /*# sourceMappingURL=style.css.map */

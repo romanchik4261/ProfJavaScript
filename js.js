@@ -117,16 +117,16 @@ class basketGoods { //элемент товара в корзине
     renderGood(product) { // генерация товара
         return `<div class="cart-item" data-id="${product.id_product}">
                 <div class="product-bio">
-                <img src="${product.img}" alt="Some image">
+                <img class="product-bio-img" src="image/cardProduct.jpg" alt="image">
                 <div class="product-desc">
                 <p class="product-title">${product.product_name}</p>
                 <p class="product-quantity">Quantity: ${product.quantity}</p>
             <p class="product-single-price">$${product.price} each</p>
-            </div>
-            </div>
             <div class="right-block">
                 <p class="product-price">$${product.quantity * product.price}</p>
                 <button class="del-btn" data-id="${product.id_product}">&times;</button>
+            </div>
+            </div>
             </div>
             </div>`
 

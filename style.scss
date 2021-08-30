@@ -68,14 +68,28 @@
     display: none;
 }
 
-.cart-block:before{
-    content: '';
-    width: 0;
-    height: 0;
-    position: absolute;
-    top: -10px;
-    right: 35px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid white;
+.cart-block {
+    font-size: 15px;
+    background-color: white;
+    width: 300px;
+    border: 1px solid black;
+    padding: 20px 20px;
+}
+
+.product-bio-img {
+    width: 100px;
+}
+
+.cart-item {
+    padding-bottom: 20px;
+}
+
+.right-block {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.del-btn {
+    color: white;
+    background-color:rgb(124, 36, 36);
 }
