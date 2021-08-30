@@ -1,20 +1,25 @@
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'; //тут путь
+
 class ProductList {
     constructor(container = '.products') {
         this.container = container;
         this.goods = [];
-        this.fetchProducts(); //метод наполняет массив products товарами
-        this.render(); //вывод товаров на страницу 
+        this._getProducts()
+            .then(data => {
+                this.goods = [...data];
+                this.render() //вывод товаров на страницу 
+            });
+
         this.priceGoods(); //сумма товаров
         this.result(); //вывод суммы
     }
 
-    fetchProducts() {
-        this.goods = [
-            { id: 1, title: 'Клубничка', price: 2000 },
-            { id: 2, title: 'Ягодка', price: 1900 },
-            { id: 3, title: 'Малинка', price: 1800 },
-            { id: 4, title: 'Черничка', price: 1500 },
-        ]
+    _getProducts() {
+        return fetch(`${API}/catalogData.json`) // тут название файла
+            .then(result => result.json())
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     render() { //вывод товаров на страницу 
@@ -43,7 +48,7 @@ class ProductList {
 
 class ProductItem { //отдельный товар
     constructor(product, img = `image/cardProduct.jpg`) {
-        this.title = product.title;
+        this.product_name = product.product_name;
         this.id = product.id;
         this.price = product.price;
         this.img = img;
@@ -52,17 +57,46 @@ class ProductItem { //отдельный товар
     render() { // верстка товара
         return `<div class="product-item">
         <img class="img" src="${this.img}">
-        <h3>${this.title}</h3>
+        <h3>${this.product_name}</h3>
         <p>${this.price} руб.</p>
         <button class="buy-btn">Купить</button>
     </div>`
     }
 }
 
-class basket { //корзина товаров
+class Basket { //корзина товаров
+    constructor(container = '.cart-block') {
+        this.container = container;
+        this.goods = [];
+        this._clickBasket();
+        this._generateBasket()
+            .then(data => {
+                this.goods = data.contents;
+                this.render() //вывод товаров 
+            });
+    }
 
-    generate() { //генерация списка товаров корзины
+    _clickBasket() {
+        document.querySelector(".btn-cart").addEventListener('click', () => {
+            document.querySelector(this.container).classList.toggle('invisible');
+        });
+    }
 
+    _generateBasket() { //генерация списка товаров корзины
+        return fetch(`${API}/getBasket.json`)
+            .then(result => result.json())
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    render() { //вывод товаров на страницу 
+        const block = document.querySelector(this.container);
+        // В block выведутся все товары
+        for (let product of this.goods) {
+            const item = new basketGoods();
+            block.insertAdjacentHTML("beforeend", item.renderGood(product)); //добавляем верстку отдельного товара в block
+        }
     }
 
     addGoods() { //добавляем товар в корзину
@@ -80,7 +114,21 @@ class basket { //корзина товаров
 
 class basketGoods { //элемент товара в корзине
 
-    renderGood() { // генерация товара
+    renderGood(product) { // генерация товара
+        return `<div class="cart-item" data-id="${product.id_product}">
+                <div class="product-bio">
+                <img class="product-bio-img" src="image/cardProduct.jpg" alt="image">
+                <div class="product-desc">
+                <p class="product-title">${product.product_name}</p>
+                <p class="product-quantity">Quantity: ${product.quantity}</p>
+            <p class="product-single-price">$${product.price} each</p>
+            <div class="right-block">
+                <p class="product-price">$${product.quantity * product.price}</p>
+                <button class="del-btn" data-id="${product.id_product}">&times;</button>
+            </div>
+            </div>
+            </div>
+            </div>`
 
     }
 
@@ -90,3 +138,4 @@ class basketGoods { //элемент товара в корзине
 }
 
 let list = new ProductList();
+let basket = new Basket();
