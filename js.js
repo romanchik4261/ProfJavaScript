@@ -10,8 +10,7 @@ class ProductList {
                 this.render() //вывод товаров на страницу 
             });
 
-        this.priceGoods(); //сумма товаров
-        this.result(); //вывод суммы
+
     }
 
     _getProducts() {
@@ -29,20 +28,10 @@ class ProductList {
             const item = new ProductItem(product);
             block.insertAdjacentHTML("beforeend", item.render()); //добавляем верстку отдельного товара в block
         }
-        block.insertAdjacentHTML("beforeend", this.result());
+        // block.insertAdjacentHTML("beforeend", this.result());
     }
 
-    priceGoods() { //сумма товаров
-        return this.goods.reduce(function (sum, current) {
-            return sum + current.price;
-        }, 0);
-    }
 
-    result() { //вывод суммы
-        return `<div class="resultProduct">
-        <p>В корзине товаров на сумму ${this.priceGoods()} руб.</p>
-        </div>`
-    }
 
 }
 
@@ -73,6 +62,8 @@ class Basket { //корзина товаров
             .then(data => {
                 this.goods = data.contents;
                 this.render() //вывод товаров 
+                this.priceGoods(); //сумма товаров
+                this.result(); //вывод суммы
             });
     }
 
@@ -97,6 +88,19 @@ class Basket { //корзина товаров
             const item = new basketGoods();
             block.insertAdjacentHTML("beforeend", item.renderGood(product)); //добавляем верстку отдельного товара в block
         }
+        block.insertAdjacentHTML("beforeend", this.result());
+    }
+
+    priceGoods() { //сумма товаров
+        return this.goods.reduce(function (sum, current) {
+            return sum + current.price;
+        }, 0);
+    }
+
+    result() { //вывод суммы
+        return `<div class="resultProduct">
+        <p>В корзине товаров на сумму ${this.priceGoods()} руб.</p>
+        </div>`
     }
 
     addGoods() { //добавляем товар в корзину
@@ -116,19 +120,20 @@ class basketGoods { //элемент товара в корзине
 
     renderGood(product) { // генерация товара
         return `<div class="cart-item" data-id="${product.id_product}">
-                <div class="product-bio">
-                <img class="product-bio-img" src="image/cardProduct.jpg" alt="image">
-                <div class="product-desc">
-                <p class="product-title">${product.product_name}</p>
-                <p class="product-quantity">Quantity: ${product.quantity}</p>
-            <p class="product-single-price">$${product.price} each</p>
-            <div class="right-block">
-                <p class="product-price">$${product.quantity * product.price}</p>
-                <button class="del-btn" data-id="${product.id_product}">&times;</button>
-            </div>
-            </div>
-            </div>
-            </div>`
+                    <div class="product-bio">
+                        <img class="product-bio-img" src="image/cardProduct.jpg" alt="image">
+                        <div class="product-desc">
+                            <p class="product-title">${product.product_name}</p>
+                            <p class="product-quantity">Количество: ${product.quantity}</p>
+                            <p class="product-single-price">Стоимость: ${product.price} руб.</p>
+
+                            <div class="right-block">
+                                <p class="product-price">Итого: ${product.quantity * product.price} руб.</p>
+                                <button class="del-btn" data-id="${product.id_product}">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
 
     }
 
