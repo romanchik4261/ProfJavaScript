@@ -62,11 +62,11 @@
 }
 
 .resultProduct {
-  height: 70px;
   font-size: 20px;
   color: #7c2424;
   border: 1px solid black;
-  margin-top: 50px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .cart {

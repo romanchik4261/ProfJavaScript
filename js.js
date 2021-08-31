@@ -10,8 +10,7 @@ class ProductList {
                 this.render() //вывод товаров на страницу 
             });
 
-        this.priceGoods(); //сумма товаров
-        this.result(); //вывод суммы
+
     }
 
     _getProducts() {
@@ -29,20 +28,10 @@ class ProductList {
             const item = new ProductItem(product);
             block.insertAdjacentHTML("beforeend", item.render()); //добавляем верстку отдельного товара в block
         }
-        block.insertAdjacentHTML("beforeend", this.result());
+        // block.insertAdjacentHTML("beforeend", this.result());
     }
 
-    priceGoods() { //сумма товаров
-        return this.goods.reduce(function (sum, current) {
-            return sum + current.price;
-        }, 0);
-    }
 
-    result() { //вывод суммы
-        return `<div class="resultProduct">
-        <p>В корзине товаров на сумму ${this.priceGoods()} руб.</p>
-        </div>`
-    }
 
 }
 
@@ -73,6 +62,8 @@ class Basket { //корзина товаров
             .then(data => {
                 this.goods = data.contents;
                 this.render() //вывод товаров 
+                this.priceGoods(); //сумма товаров
+                this.result(); //вывод суммы
             });
     }
 
@@ -97,6 +88,19 @@ class Basket { //корзина товаров
             const item = new basketGoods();
             block.insertAdjacentHTML("beforeend", item.renderGood(product)); //добавляем верстку отдельного товара в block
         }
+        block.insertAdjacentHTML("beforeend", this.result());
+    }
+
+    priceGoods() { //сумма товаров
+        return this.goods.reduce(function (sum, current) {
+            return sum + current.price;
+        }, 0);
+    }
+
+    result() { //вывод суммы
+        return `<div class="resultProduct">
+        <p>В корзине товаров на сумму ${this.priceGoods()} руб.</p>
+        </div>`
     }
 
     addGoods() { //добавляем товар в корзину
