@@ -1,6 +1,6 @@
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'; //тут путь
 
-class ProductList {
+class ProductList { //базовый список всех товраов
     constructor(container = '.products') {
         this.container = container;
         this.goods = [];
@@ -35,7 +35,7 @@ class ProductList {
 
 }
 
-class ProductItem { //отдельный товар
+class ProductItem { //товар каталога
     constructor(product, img = `image/cardProduct.jpg`) {
         this.product_name = product.product_name;
         this.id = product.id;
@@ -53,7 +53,7 @@ class ProductItem { //отдельный товар
     }
 }
 
-class Basket { //корзина товаров
+class Basket { //список товаров корзины
     constructor(container = '.cart-block') {
         this.container = container;
         this.goods = [];
@@ -116,7 +116,7 @@ class Basket { //корзина товаров
     }
 }
 
-class basketGoods { //элемент товара в корзине
+class basketGoods { //товар корзины
 
     renderGood(product) { // генерация товара
         return `<div class="cart-item" data-id="${product.id_product}">
