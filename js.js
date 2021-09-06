@@ -1,41 +1,36 @@
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'; //тут путь
 
-class ProductList {
-    constructor(container = '.products') {
+class List { //список всех товаров
+    constructor(url, container, list = list2) {
         this.container = container;
+        this.list = list;
+        this.url = url;
         this.goods = [];
-        this._getProducts()
-            .then(data => {
-                this.goods = [...data];
-                this.render() //вывод товаров на страницу 
-            });
+        this.allProducts = [];
+        this._init();
 
-
-    }
-
-    _getProducts() {
-        return fetch(`${API}/catalogData.json`) // тут название файла
-            .then(result => result.json())
-            .catch(error => {
-                console.log(error);
-            });
+        // this._getProducts()
+        //     .then(data => {
+        //         this.goods = [...data];
+        //         this.render() //вывод товаров на страницу 
+        //     });
     }
 
     render() { //вывод товаров на страницу 
         const block = document.querySelector(this.container);
         // В block выведутся все товары
         for (let product of this.goods) {
-            const item = new ProductItem(product);
+            const item = new Item(product);
             block.insertAdjacentHTML("beforeend", item.render()); //добавляем верстку отдельного товара в block
         }
-        // block.insertAdjacentHTML("beforeend", this.result());
     }
-
-
-
 }
 
-class ProductItem { //отдельный товар
+class ProductsList extends List {
+    constructor()
+}
+
+class Item { //отдельный товар
     constructor(product, img = `image/cardProduct.jpg`) {
         this.product_name = product.product_name;
         this.id = product.id;
@@ -142,5 +137,10 @@ class basketGoods { //элемент товара в корзине
     }
 }
 
-let list = new ProductList();
-let basket = new Basket();
+const list2 = {
+    ProductsList: ProductItem,
+    Cart: CartItem
+};
+
+let cart = new Cart();
+let products = new ProductsList(cart);
