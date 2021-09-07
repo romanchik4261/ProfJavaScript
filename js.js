@@ -70,6 +70,38 @@ class Cart extends List { // 3 список товаров корзины
                 this.handleData(data.contents); // выводим все товары в корзине. Теперь в handleData вызывается метод render  и в нем делаем объект класса товар корзины CartItem
             });
     }
+
+    addProduct(element) { // добавляем товар в корзину
+        this.getJson(`${API}/addToBasket.json`)//можно не делать эту часть кода, она для демонстрации того, как можно сделать проверку серверу в этом файле одна инструкция "result": 1
+            .then(data => {
+                if (data.result === 1) {
+                    let productId = +element.dataset['id'];
+                    //дальше нужно понять полученный товар есть уже в корзине или нет
+                    let find = this.allProducts.find(product => product.id_product === productId);
+                    if (find) { //если такой товар с таким id есть, то добавляется просто количество
+                        find.quantity++;
+                        this._updateCart(find);
+                    } else { //а если такого товара нет, то создаем
+                        let product = {
+                            id_product: productId,
+                            price: +element.dataset['price'],
+                            product_name: element.dataset['name'],
+                            quantity: 1
+                        };
+                        this.goods = [product];
+                        this.render();
+                    }
+                } else {
+                    alert('Error');
+                }
+            })
+    }
+
+    _updateCart(product) {
+        let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`);
+        block.querySelector('.product-quantity').textContent = `Количество: ${product.quantity}`;
+        block.querySelector('.product-price').textContent = `${product.quantity * product.price} руб.`;
+    }
 }
 
 class Item { // 4 базовый класс товар
@@ -188,31 +220,6 @@ class Basket { //корзина товаров
     }
 }
 
-class basketGoods { //элемент товара в корзине
-
-    renderGood(product) { // генерация товара
-        return `<div class="cart-item" data-id="${product.id_product}">
-                    <div class="product-bio">
-                        <img class="product-bio-img" src="image/cardProduct.jpg" alt="image">
-                        <div class="product-desc">
-                            <p class="product-title">${product.product_name}</p>
-                            <p class="product-quantity">Количество: ${product.quantity}</p>
-                            <p class="product-single-price">Стоимость: ${product.price} руб.</p>
-
-                            <div class="right-block">
-                                <p class="product-price">Итого: ${product.quantity * product.price} руб.</p>
-                                <button class="del-btn" data-id="${product.id_product}">Удалить</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>`
-
-    }
-
-    amountGoods() { //изменение кол-ва товаров
-
-    }
-}
 
 const list2 = {
     ProductsList: ProductItem,
