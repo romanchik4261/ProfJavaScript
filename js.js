@@ -1,6 +1,6 @@
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'; //тут путь
 
-class List { //список всех товаров
+class List { // 1 базовый класс список товаров
     constructor(url, container, list = list2) {
         this.container = container;
         this.list = list;
@@ -16,21 +16,57 @@ class List { //список всех товаров
         //     });
     }
 
+    getJson(url) { // получаем массив объектов товаров
+        return fetch(url ? url : `${API + this.url}`)
+            .then(result => result.json())
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    handleData(data) { //запускает отрисовку либо каталога товаров, либо списка товаров корзины
+        this.goods = [...data];
+        this.render();
+    }
+
     render() { //вывод товаров на страницу 
         const block = document.querySelector(this.container);
         // В block выведутся все товары
-        for (let product of this.goods) {
-            const item = new Item(product);
-            block.insertAdjacentHTML("beforeend", item.render()); //добавляем верстку отдельного товара в block
+        for (let product of this.goods) { //обходим все товары в массиве
+            const productObj = new this.list[this.constructor.name](product); // создали объект и наполнили его свойствами
+            // помещаем этот объект в массив объектов
+            this.allProducts.push(productObj);
+            block.insertAdjacentHTML("beforeend", productObj.render()); // с помощью объекта товаров вызываем метод render() и поскольку это цикл, получаем верстку каждого товара в block
         }
+    }
+
+
+}
+
+class ProductsList extends List { // 2 список товаров каталога. Наследуемся от класса список List
+    constructor(cart, container = '.products', url = "/catalogData.json") {
+        super(url, container); //super вызывает базовый констркутор. После вызова super запускается init() его вызов прописан в конструкторе класса List
+        this.cart = cart;
+        this.getJson()
+            .then(data => this.handleData(data));
+
+    }
+
+    _init() { //регистрируем кнопку купить
+        document.querySelector(this.container).addEventListener('click', e => {
+            if (e.target.classList.contains('buy-btn')) {
+                this.cart.addProduct(e.target); //в метод addProduct передаем кнопку которую нажали
+            }
+        });
     }
 }
 
-class ProductsList extends List {
-    constructor()
-}
+class Cart extends List {
 
-class Item { //отдельный товар
+} // 3 список товаров корзины
+
+class Item { // 4 базовый класс товар
+    // у всех товаров есть общие свойства, они описаны в этом классе
     constructor(product, img = `image/cardProduct.jpg`) {
         this.product_name = product.product_name;
         this.id = product.id;
@@ -38,15 +74,26 @@ class Item { //отдельный товар
         this.img = img;
     }
 
-    render() { // верстка товара
-        return `<div class="product-item">
-        <img class="img" src="${this.img}">
-        <h3>${this.product_name}</h3>
-        <p>${this.price} руб.</p>
-        <button class="buy-btn">Купить</button>
+    render() { // генерация товара для каталога товаров
+        return `<div class="product-item" data-id="${this.id_product}">
+        <img class="img" src="${this.img}" alt="img">
+        <div class="desk">
+            <h3>${this.product_name}</h3>
+            <p>${this.price} руб.</p>
+            <button class="buy-btn"
+            data-id="${this.id_product}"
+            data-name="${this.product_name}"
+            data-price="${this.price}">Купить</button>
+        </div>
     </div>`
     }
 }
+
+
+
+class ProductItem extends Item { } // 5 товар каталога
+
+class CartItem extends Item { } // 6 товар корзины
 
 class Basket { //корзина товаров
     constructor(container = '.cart-block') {
@@ -144,3 +191,5 @@ const list2 = {
 
 let cart = new Cart();
 let products = new ProductsList(cart);
+//чтобы использовать в классе методы другого класса, то
+//нужно в конструктор ProductList (список каталог товаров) передать объект класса Cart(корзина) методы которого на нужны
