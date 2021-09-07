@@ -61,9 +61,16 @@ class ProductsList extends List { // 2 список товаров катало�
     }
 }
 
-class Cart extends List {
-
-} // 3 список товаров корзины
+class Cart extends List { // 3 список товаров корзины
+    //потомок класса список товаров List 
+    constructor(container = ".cart-block", url = "/getBasket.json") {
+        super(url, container);
+        this.getJson()
+            .then(data => {
+                this.handleData(data.contents); // выводим все товары в корзине. Теперь в handleData вызывается метод render  и в нем делаем объект класса товар корзины CartItem
+            });
+    }
+}
 
 class Item { // 4 базовый класс товар
     // у всех товаров есть общие свойства, они описаны в этом классе
@@ -93,7 +100,30 @@ class Item { // 4 базовый класс товар
 
 class ProductItem extends Item { } // 5 товар каталога
 
-class CartItem extends Item { } // 6 товар корзины
+class CartItem extends Item { // 6 товар корзины
+    constructor(el, img = `image/cardProduct.jpg`) {
+        super(el, img);
+        this.quantity = el.quantity; // тут добавляется ещё количество
+    }
+
+    render() {
+        return `<div class="cart-item" data-id="${this.id_product}">
+                    <div class="product-bio">
+                        <img class="product-bio-img" src="${this.img}" alt="image">
+                        <div class="product-desc">
+                            <p class="product-title">${this.product_name}</p>
+                            <p class="product-quantity">Количество: ${this.quantity}</p>
+                            <p class="product-single-price">Стоимость: ${this.price} руб.</p>
+
+                            <div class="right-block">
+                                <p class="product-price">Итого: ${this.quantity * this.price} руб.</p>
+                                <button class="del-btn" data-id="${this.id_product}">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+    }
+}
 
 class Basket { //корзина товаров
     constructor(container = '.cart-block') {
