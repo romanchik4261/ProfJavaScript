@@ -8,12 +8,6 @@ class List { // 1 базовый класс - список товаров
         this.goods = [];
         this.allProducts = [];
         this._init();
-
-        // this._getProducts()
-        //     .then(data => {
-        //         this.goods = [...data];
-        //         this.render() //вывод товаров на страницу 
-        //     });
     }
 
     getJson(url) { // получаем массив объектов товаров
@@ -29,6 +23,10 @@ class List { // 1 базовый класс - список товаров
         this.render();
     }
 
+    calcSum() {
+        return this.allProducts.reduce((accum, item) => accum += item.price, 0);
+    }
+
     render() { //вывод товаров на страницу. Одним методом можно вывести товар как в каталог, так и в корзину
         const block = document.querySelector(this.container);
         // В block выведутся все товары
@@ -39,8 +37,9 @@ class List { // 1 базовый класс - список товаров
             block.insertAdjacentHTML("beforeend", productObj.render()); // с помощью объекта товаров вызываем метод render() где объект ProductList и поскольку это цикл, получаем верстку каждого товара в block
         }
     }
-
-
+    _init() {
+        return false
+    }
 }
 
 class ProductsList extends List { // 2 список товаров каталога. Наследуемся от класса список List
@@ -135,16 +134,15 @@ class Cart extends List { // 3 список товаров корзины
                     alert('Error');
                 }
             })
-
     }
 }
 
 class Item { // 4 базовый класс - товар
     // у всех товаров есть общие свойства, они описаны в этом классе
-    constructor(product, img = `image/cardProduct.jpg`) {
-        this.product_name = product.product_name;
-        this.id = product.id;
-        this.price = product.price;
+    constructor(el, img = `image/cardProduct.jpg`) {
+        this.product_name = el.product_name;
+        this.price = el.price;
+        this.id_product = el.id_product;
         this.img = img;
     }
 
@@ -162,8 +160,6 @@ class Item { // 4 базовый класс - товар
     </div>`
     } // к кнопке купить привязываеются data-атрибуты id, имя, цена
 }
-
-
 
 class ProductItem extends Item { } // 5 товар каталога
 
@@ -191,66 +187,6 @@ class CartItem extends Item { // 6 товар корзины
                 </div>`
     }
 }
-
-class Basket { //корзина товаров
-    constructor(container = '.cart-block') {
-        this.container = container;
-        this.goods = [];
-        this._clickBasket();
-        this._generateBasket()
-            .then(data => {
-                this.goods = data.contents;
-                this.render() //вывод товаров 
-                this.priceGoods(); //сумма товаров
-                this.result(); //вывод суммы
-            });
-    }
-
-
-
-    _generateBasket() { //генерация списка товаров корзины
-        return fetch(`${API}/getBasket.json`)
-            .then(result => result.json())
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
-    render() { //вывод товаров на страницу 
-        const block = document.querySelector(this.container);
-        // В block выведутся все товары
-        for (let product of this.goods) {
-            const item = new basketGoods();
-            block.insertAdjacentHTML("beforeend", item.renderGood(product)); //добавляем верстку отдельного товара в block
-        }
-        block.insertAdjacentHTML("beforeend", this.result());
-    }
-
-    priceGoods() { //сумма товаров
-        return this.goods.reduce(function (sum, current) {
-            return sum + current.price;
-        }, 0);
-    }
-
-    result() { //вывод суммы
-        return `<div class="resultProduct">
-        <p>В корзине товаров на сумму ${this.priceGoods()} руб.</p>
-        </div>`
-    }
-
-    addGoods() { //добавляем товар в корзину
-
-    }
-
-    delGoods() { //удаление товара из корзины
-
-    }
-
-    clearbasket() { //очищение корзины
-
-    }
-}
-
 
 const list2 = {
     ProductsList: ProductItem,
