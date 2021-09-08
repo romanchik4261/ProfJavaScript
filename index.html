@@ -10,23 +10,34 @@
 </head>
 
 <body>
-    <header class="header">
-        <div class="cart">
+    <div id="app">
+        <header class="header">
+            <div class="cart">
 
-            <form action="#" class="search-form">
-                <input type="text" class="search-field">
-                <button class="btn-search" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
+                <form action="#" class="search-form">
+                    <input type="text" class="search-field">
+                    <button class="btn-search" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
 
-            <button class="btn-cart" type="button">Корзина</button>
-            <div class="cart-block invisible"></div>
-        </div>
-    </header>
-    <main>
-        <div class="products"></div>
-    </main>
+                <button class="btn-cart" type="button">Корзина</button>
+                <div class="cart-block invisible"></div>
+            </div>
+        </header>
+        <main>
+            <div class="products">
+                <div class="product-item" v-for="product of products" :key="product.id_product">
+                    <img :src="imgCatalog" alt="Some img">
+                    <div class="desc">
+                        <h3>{{product.product_name}}</h3>
+                        <p>{{product.price}} $</p>
+                        <button class="buy-btn" @click="addProduct(product)">Купить</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
     <script src="js.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
