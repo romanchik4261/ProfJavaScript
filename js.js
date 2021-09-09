@@ -1,18 +1,21 @@
-const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/'; //тут путь
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses'; //тут путь
 
 const app = new Vue({
     el: '#app',
+
     data: {
         catalogUrl: '/catalogData.json',
+        products: [],
         imgCatalog: 'image/cardProduct.jpg',
-        userSearch: '',
-        show: false
+        userSearch: '', //для фильтрации
+        show: false // для того чтобы показывать или скрывать корзину
     },
+
     methods: {
         getJson(url) {
             return fetch(url)
                 .then(result => result.json())
-                .cath(error => {
+                .catch(error => {
                     console.log(error);
                 })
         },
@@ -20,21 +23,24 @@ const app = new Vue({
         addProduct(product) {
             console.log(product.id_product);
         }
+
     },
-    mounted() {
+
+    mounted() { //при создании объекта запускается этот метод
         this.getJson(`${API + this.catalogUrl}`)
             .then(data => {
                 for (let el of data) {
                     this.products.push(el);
                 }
             });
-        this.getJson(`getProducts.json`)
+        this.getJson(`getProducts.json`) //локальный файл
             .then(data => {
                 for (let el of data) {
                     this.products.push(el);
                 }
             })
     }
+
 
 })
 
