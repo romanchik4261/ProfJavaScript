@@ -14,12 +14,14 @@
         <header class="header">
             <div class="cart">
 
-                <form action="#" class="search-form" @submit.prevent="filter">
+                <!-- <form action="#" class="search-form" @submit.prevent="filter">
                     <input type="text" class="search-field" v-model="userSearch">
                     <button class="btn-search" type="submit">
                         <i class="fas fa-search">Искать</i>
                     </button>
-                </form>
+                </form> -->
+
+                <filter></filter>
 
                 <button class="btn-cart" type="button" @click="showCart = !showCart">Корзина</button>
                 <div class="cart-block" v-show="showCart">
@@ -49,22 +51,17 @@
             </div>
         </header>
         <main>
-            <div class="products">
-                <div class="product-item" v-for="product of filtered" :key="product.id_product">
-                    <img class="img" :src="imgCatalog" alt="Some img">
-                    <div class="desc">
-                        <h3>{{product.product_name}}</h3>
-                        <p>{{product.price}} $</p>
-                        <button class="buy-btn" @click="addProduct(product)">Купить</button>
-                    </div>
-                </div>
-            </div>
+            <products :products="filtered" :img="imgCatalog" @add-product="addProduct">
+            </products>
+            <!-- product и img с товарами отправляем в компонент -->
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-
+    <script src="ProductComponent.js"></script>
+    <script src="filter.js"></script>
     <script src="js.js"></script>
+
 
 
 </body>
