@@ -24,46 +24,48 @@
                 <filter></filter>
 
                 <button class="btn-cart" type="button" @click="showCart = !showCart">Корзина</button>
-                <div class="cart-block" v-show="showCart">
-                    <p v-if="!cartItems.length">
-                        Cart is empty
-                    </p>
 
-                    <div class="cart-item" v-for="item of cartItems" :key="item.id_product">
-                        <div class="product-bio">
-                            <img class="img" :src="imgCart" alt="img">
-                            <div class="product-desc">
-                                <div class="product-title">{{item.product_name}}</div>
-                                <div class="product-quantity">Количество: {{item.quantity}}</div>
-                                <div class="product-single-price">Цена: {{item.price}}$</div>
-                            </div>
+                <cart :cart-items="cartItems" :img="imgCart" :visibility="showCart"></cart>
+                <!-- Передаем в компонент массив товаров с корзиной, картинку и видимость корзины -->
 
-                        </div>
-
-                        <div class="right-block">
-                            <div class="product-price">
-                                Итого: {{item.quantity * item.price}}$
-                            </div>
-                            <button class="del-btn" @click="remove(item)">Удалить</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </header>
         <main>
-            <products :products="filtered" :img="imgCatalog">
+            <products :products="filtered" :img="imgCatalog" @add-product="addProduct">
             </products>
             <!-- product и img с товарами отправляем в компонент -->
-            <!-- @add-product="addProduct" -->
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="/js/ProductComponent.js"></script>
-    <script src="js/cart.js"></script>
+    <script src="js/CartComponent.js"></script>
     <script src="/js/filter.js"></script>
     <script src="/js/js.js"></script>
 
+    <!-- <div class="cart-block" v-show="showCart">
+    <p v-if="!cartItems.length">
+        Cart is empty
+    </p>
 
+    <div class="cart-item" v-for="item of cartItems" :key="item.id_product">
+        <div class="product-bio">
+            <img class="img" :src="imgCart" alt="img">
+            <div class="product-desc">
+                <div class="product-title">{{item.product_name}}</div>
+                <div class="product-quantity">Количество: {{item.quantity}}</div>
+                <div class="product-single-price">Цена: {{item.price}}$</div>
+            </div>
+
+        </div>
+
+        <div class="right-block">
+            <div class="product-price">
+                Итого: {{item.quantity * item.price}}$
+            </div>
+            <button class="del-btn" @click="remove(item)">Удалить</button>
+        </div>
+    </div>
+</div> -->
 
 </body>

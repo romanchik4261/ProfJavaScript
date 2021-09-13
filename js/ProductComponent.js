@@ -15,10 +15,12 @@ Vue.component('product', { //вложенный компонент
                 <div class="desc">
                   <h3>{{product.product_name}}</h3>
                   <p>{{product.price}}</p>
-                  <button class="buy-btn" @click="$root.addProduct(product)">Купить</button>
+                  <button class="buy-btn" @click="$parent.$emit('add-product', product)">Купить</button>
                 </div>
             </div>` //click вызывает метод addProduct
 })
 
-  //Можно так написать < button class="buy-btn" @click="$parent.$emit('add-product', product)">Купить</button >
-  // Эта конструкция работает быстрее $parent.$emit это конструкция которая дает возможность передавать данные из вложенного компонента на верх. Регистрируем событие add-product и при срабатывании события вызывается метод добавить товар addProduct и принимает на вход объект товара product
+  //Можно так написать <button class="buy-btn" @click="$root.addProduct(product)">Купить</button>
+
+
+  // $parent.$emit эта конструкция работает быстрее, она дает возможность передавать данные из вложенного компонента на верх. Регистрируем событие add-product и при срабатывании события вызывается метод добавить товар addProduct и принимает на вход объект товара product
