@@ -51,16 +51,18 @@
             </div>
         </header>
         <main>
-            <products :products="filtered" :img="imgCatalog" @add-product="addProduct">
+            <products :products="filtered" :img="imgCatalog">
             </products>
             <!-- product и img с товарами отправляем в компонент -->
+            <!-- @add-product="addProduct" -->
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-    <script src="ProductComponent.js"></script>
-    <script src="filter.js"></script>
-    <script src="js.js"></script>
+    <script src="/js/ProductComponent.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="/js/filter.js"></script>
+    <script src="/js/js.js"></script>
 
 
 
