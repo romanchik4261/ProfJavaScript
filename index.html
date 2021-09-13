@@ -10,17 +10,31 @@
 </head>
 
 <body>
-    <header class="header">
-        <div class="cart">
-            <button class="btn-cart" type="button">Корзина</button>
-            <div class="cart-block invisible"></div>
-        </div>
-    </header>
-    <main>
-        <div class="products"></div>
-    </main>
+    <div id="app">
+        <header class="header">
+            <div class="cart">
 
-    <script src="js.js"></script>
+                <search></search>
+
+                <button class="btn-cart" type="button" @click="showCart = !showCart">Корзина</button>
+
+                <cart :cart-items="cartItems" :img="imgCart" :visibility="showCart"></cart>
+                <!-- Передаем в компонент массив товаров с корзиной, картинку и видимость корзины -->
+
+            </div>
+        </header>
+        <main>
+            <products :products="filtered" :img="imgCatalog" @add-product="addProduct">
+            </products>
+            <!-- product и img с товарами отправляем в компонент -->
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="/js/ProductComponent.js"></script>
+    <script src="js/CartComponent.js"></script>
+    <script src="/js/SearchComponent.js"></script>
+    <script src="/js/js.js"></script>
 
 </body>
 
