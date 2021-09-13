@@ -15,17 +15,17 @@ Vue.component('cart-item', {
   template:
     `<div class="cart-item">
         <div class="product-bio">
-          <img :src="img" alt="img">
+          <img :src="img" class="img" alt="img">
             <div class="product-desc">
-              <div class="product-title">{{cart-item.product_name}}</div>
+              <div class="product-title">{{cartItem.product_name}}</div>
               <div class="product-quantity">Количество: {{cartItem.quantity}}</div>
-              <div class="product-single-price">Итого: {{cartItem.price}}$</div>
+              <div class="product-single-price">Стоиомость: {{cartItem.price}} руб.</div>
             </div>
         </div>
 
         <div class="right-block">
-          <div class="product-price">
-            {{cartItem.quantity*cartItem.price}}
+          <div class="product-price"> ИТОГО: 
+            {{cartItem.quantity*cartItem.price}} руб.
           </div>
           <button class="del-btn" @click="$root.remove(cartItem)">Удалить</button>
         </div>

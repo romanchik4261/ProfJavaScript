@@ -14,7 +14,7 @@ Vue.component('product', { //вложенный компонент
                 <img :src="img" class="img" alt="img">
                 <div class="desc">
                   <h3>{{product.product_name}}</h3>
-                  <p>{{product.price}}</p>
+                  <p>{{product.price}} руб.</p>
                   <button class="buy-btn" @click="$parent.$emit('add-product', product)">Купить</button>
                 </div>
             </div>` //click вызывает метод addProduct
